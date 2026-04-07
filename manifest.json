@@ -1,0 +1,22 @@
+{
+  "name": "MercadoPago Aumento de Limite - Google Play Store",
+  "short_name": "MercadoPago",
+  "description": "Baixe MercadoPago Aumento de Limite na Google Play Store. Aumente seu limite de crédito de forma rápida e segura.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#01875f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "img/app-icon.png",
+      "sizes": "240x480",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "/",
+  "categories": ["finance"],
+  "prefer_related_applications": false,
+  "related_applications": []
+}
